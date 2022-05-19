@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-set -x
-
 # Source credentials from .env file if it exists
 if test -f ".env"; then
 	source .env
