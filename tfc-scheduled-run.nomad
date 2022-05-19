@@ -1,0 +1,48 @@
+job "tfc-scheduled-run" {
+  periodic {
+    cron             = "@daily"
+    prohibit_overlap = true
+  }
+
+  datacenters = ["davnet"]
+  type = "batch"
+
+  group "run" {
+    count = 1
+    task "run" {
+      driver = "exec"
+
+      vault {
+        policies = [
+          "default",
+          "tfc-lmhd-manage-workspaces",
+        ]
+      }
+
+      artifact {
+        source = "https://raw.githubusercontent.com/lmhd-davnet/nomad-tfc-scheduled-run/main/run.sh"
+      }
+
+      template {
+        data = <<-EOF
+          {{ with secret "kv/data/terraform/tfc/lmhd/manage-workspaces" }}
+          TOKEN={{ .Data.data.token }}
+          {{ end }}
+        EOF
+
+        destination = "secrets/tfc.env"
+        env = true
+      }
+
+      config {
+        command = "run.sh"
+      }
+
+      resources {
+        cpu    = 100
+        memory = 10
+      }
+    }
+  }
+}
+
