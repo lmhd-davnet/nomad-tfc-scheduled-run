@@ -5,10 +5,11 @@ job "tfc-scheduled-run" {
   }
 
   datacenters = ["davnet"]
-  type = "batch"
+  type        = "batch"
 
   group "run" {
     count = 1
+
     task "run" {
       driver = "exec"
 
@@ -31,7 +32,7 @@ job "tfc-scheduled-run" {
         EOF
 
         destination = "secrets/tfc.env"
-        env = true
+        env         = true
       }
 
       config {
@@ -45,4 +46,3 @@ job "tfc-scheduled-run" {
     }
   }
 }
-
