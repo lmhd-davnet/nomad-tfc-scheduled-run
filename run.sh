@@ -2,6 +2,7 @@
 
 # exit on fail
 set -e
+set -o pipefail
 
 # output commands
 debug=${DEBUG:-false}
