@@ -85,6 +85,11 @@ EOF
 		--header "Content-Type: application/vnd.api+json" \
 		--request POST \
 		--data @payload.json \
-		https://app.terraform.io/api/v2/runs | jq .
+		https://app.terraform.io/api/v2/runs \
+		> runs.json
+
+	if ${debug}; then
+		cat runs.json | jq .
+	fi
 done
 
