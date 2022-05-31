@@ -1,5 +1,15 @@
 #!/usr/bin/env bash
 
+# exit on fail
+set -e
+
+# output commands
+debug=${DEBUG:-false}
+if ${debug}; then
+	echo debug mode enabled
+	set -x
+fi
+
 # Source credentials from .env file if it exists
 if test -f ".env"; then
 	source .env
